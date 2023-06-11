@@ -8,23 +8,27 @@ import java.util.ArrayList;
 
 public class Calcular {
     public void adeudos(Cliente cliente){
+        if(cliente==null){
+            System.out.println("nada ingresado");
+            return;
+        }
         ArrayList<AdeudoComida> adeudoComida = cliente.getAdeudoComida();
         ArrayList<AdeudoRenta> adeudoRenta = cliente.getAdeudoRenta();
         double deudaComida=0,aux;
         double deudarenta=0;
         if(adeudoComida.size()>0 && adeudoComida.get(0)!=null){
             for (int i = 0; i < adeudoComida.size(); i++) {
-                if(adeudoComida.get(i).getDiasSinPagar()>15){
-                    aux= (10 * adeudoComida.get(i).getMontoAdeudo())/100;
-                }else aux = adeudoComida.get(i).getMontoAdeudo();
+                if(Integer.parseInt(adeudoComida.get(i).getDescripcion())>15){
+                    aux= (10 *  Double.parseDouble(adeudoComida.get(i).getMontoAdeudo()))/100;
+                }else aux = Double.parseDouble(adeudoComida.get(i).getMontoAdeudo());
                 deudaComida += aux;
             }
             System.out.println("total a pagar de adeudos de comidas:" + deudaComida);
         }else System.out.println("No existen adeudos de comida");
         if(adeudoRenta.size()>0 && adeudoRenta.get(0)!=null){
             if(adeudoRenta.size()==1){
-                aux=adeudoRenta.get(0).getMontoAdeudo();
-                if(adeudoRenta.get(0).getDiasSinPagar()<15){
+                aux=Double.parseDouble(adeudoRenta.get(0).getMontoAdeudo());
+                if(Integer.parseInt( adeudoRenta.get(0).getDescripcion())<15){
                     deudarenta=aux + 5*aux/100;
                 }else {
                     deudarenta=aux + 10*aux/100;
@@ -33,7 +37,7 @@ public class Calcular {
                 System.out.println("asasasa");
                 aux=0;
                 for (int i = 0; i < adeudoRenta.size(); i++) {
-                    aux+=adeudoRenta.get(i).getMontoAdeudo();
+                    aux+= Double.parseDouble(adeudoRenta.get(i).getMontoAdeudo());
                 }
                 if (adeudoRenta.size()==3){
                     deudarenta = aux + 20*aux/100;

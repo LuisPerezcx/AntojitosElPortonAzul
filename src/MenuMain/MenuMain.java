@@ -3,6 +3,7 @@ package MenuMain;
 import adeudos.IngresarAdeudo;
 import calculos.Calcular;
 import cliente.ListaClientes;
+import validaciones.Validar;
 
 import java.util.Scanner;
 
@@ -10,12 +11,12 @@ public class MenuMain {
     ListaClientes listaClientes = new ListaClientes();
     Calcular calcular = new Calcular();
     IngresarAdeudo ingresarAdeudo = new IngresarAdeudo();
+    Validar validar = new Validar();
     public void menu(Scanner scanner){
         int opc = 0;
         while (opc != 7) {
             showOptions();
-            opc = scanner.nextInt();
-            scanner.nextLine();
+            opc = validar.validarnum(scanner);
             switch (opc){
                 case 1 -> listaClientes.AgregarCliente(scanner);
                 case 2 -> listaClientes.mostrarClientes();

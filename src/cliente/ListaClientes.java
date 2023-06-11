@@ -1,5 +1,7 @@
 package cliente;
 
+import adeudos.Adeudos;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,7 +23,7 @@ public class ListaClientes {
         telefono = scanner.nextLine();
         System.out.println("ingresa correo");
         correo = scanner.nextLine();
-        return new Cliente(nombre,apellidos,direccion,telefono,correo);
+        return new Cliente(nombre,apellidos,"",direccion,telefono,correo);
     }
     public void mostrarClientes(){
         System.out.println("- CLIENTES REGISTRADOS -\n");
@@ -31,6 +33,10 @@ public class ListaClientes {
         }
     }
     public Cliente buscarCliente(Scanner scanner){
+        if(clienteArrayList.size()==0){
+            System.out.println("no hay clientes ingresados");
+            return null;
+        }
         System.out.println("ingresa el nombre del cliente");
         String nombre = scanner.nextLine();
         System.out.println("ingresa apellido del cliente");

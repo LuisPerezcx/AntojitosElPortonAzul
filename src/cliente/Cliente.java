@@ -1,7 +1,9 @@
 package cliente;
 
+import adeudos.Adeudos;
 import adeudos.AdeudoComida;
 import adeudos.AdeudoRenta;
+import validaciones.Validar;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,30 +13,36 @@ public class Cliente {
     private int idCliente;
     private String nombre;
     private String apellidos;
+    private String apellidos2;
     private String direccion;
     private String telefono;
     private String correo;
     ArrayList<AdeudoRenta> adeudoRenta = new java.util.ArrayList<>();
     ArrayList<AdeudoComida> adeudoComida = new java.util.ArrayList<>();
+    private Adeudos adeudos;
+    Validar validar = new Validar();
     private static int cont=1;
     public Cliente (){
 
     }
-    public Cliente(String nombre, String apellidos, String direccion, String telefono, String correo) {
+    public Cliente(String nombre, String apellidos,String apellidos2, String direccion, String telefono, String correo) {
         this.idCliente = cont;
         cont++;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.apellidos2 = apellidos2;
         this.direccion = direccion;
         this.telefono = telefono;
         this.correo = correo;
+    }
+    public void ingresarAdeudos(){
         this.adeudoRenta.add(ingresarAdeudoRenta());
         this.adeudoComida.add(ingresarAdeudoComida());
     }
     @Override
     public String toString(){
-        return "id cliente: " + idCliente + " nombre: " + nombre + " apellidos: " + apellidos + " direccion: "
-                + direccion +" telefono: " + telefono + " correo: " + correo + "\n- ADEUDO RENTA -\n" + adeudoRenta
+        return "id cliente: " + idCliente + " nombre: " + nombre + " apellidos: " + apellidos +" " + apellidos2 + " Direccion:[ "
+                + direccion +"] telefono: " + telefono + " correo: " + correo + "\n- ADEUDO RENTA -\n" + adeudoRenta
                 + "\n- ADEUDO COMIDA -\n" + adeudoComida;
     }
     public AdeudoRenta ingresarAdeudoRenta(){
@@ -43,23 +51,21 @@ public class Cliente {
         int dias,id;
         System.out.println("- INGRESAR ADEUDO RENTA -");
         System.out.println("Ingresa monto del Adeudo");
-        adeudo = scanner.nextDouble();
-        scanner.nextLine();
+        adeudo = validar.validarDouble(scanner);
         if (adeudo == 0){
             return null;
         }else{
             System.out.println("Ingresa fecha del adeudo(dd-mm-yyyy): ");
-            fecha = scanner.nextLine();
+            fecha = validar.validarFecha(scanner);
             System.out.println("ingresa los dias sin pagar: ");
-            dias = scanner.nextInt();
-            scanner.nextLine();
+            dias = validar.validarnum(scanner);
             if(adeudoRenta.size() == 0 || adeudoRenta.get(0)==null){
                 id = 0;
             }else{
                 System.out.println(adeudoRenta.size());
                 id = adeudoRenta.get(adeudoRenta.size()-1).getIdAdeudo();
             }
-            return new AdeudoRenta(id+1,adeudo,fecha,false,dias);
+            return new AdeudoRenta("","",fecha,false,"");
         }
     }
     public AdeudoComida ingresarAdeudoComida(){
@@ -68,22 +74,21 @@ public class Cliente {
         int dias,id;
         System.out.println("- INGRESAR ADEUDO COMIDA -");
         System.out.println("Ingresa monto del Adeudo");
-        adeudo = scanner.nextDouble();
+        adeudo = validar.validarDouble(scanner);
         scanner.nextLine();
         if (adeudo == 0){
             return null;
         }else{
             System.out.println("Ingresa fecha del adeudo(dd-mm-yyyy): ");
-            fecha = scanner.nextLine();
+            fecha = validar.validarFecha(scanner);
             System.out.println("ingresa los dias sin pagar: ");
-            dias = scanner.nextInt();
-            scanner.nextLine();
+            dias = validar.validarnum(scanner);
             if(adeudoComida.size()==0 | adeudoRenta.get(0)==null){
                 id = 0;
             }else{
                 id = adeudoComida.get(adeudoComida.size()-1).getIdAdeudo();
             }
-            return new AdeudoComida(id+1,adeudo,fecha,false,dias);
+            return new AdeudoComida("","adeudo",fecha,false,"dias");
         }
     }
 
@@ -95,11 +100,24 @@ public class Cliente {
         return apellidos;
     }
 
+
+    public String getApellidos2() {
+        return apellidos2;
+    }
+
     public ArrayList<AdeudoRenta> getAdeudoRenta() {
         return adeudoRenta;
     }
 
     public ArrayList<AdeudoComida> getAdeudoComida() {
         return adeudoComida;
+    }
+
+    public Adeudos getAdeudo() {
+        return adeudos;
+    }
+
+    public void setAdeudos(Adeudos adeudos) {
+        this.adeudos = adeudos;
     }
 }
